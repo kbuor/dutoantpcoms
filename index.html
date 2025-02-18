@@ -82,7 +82,6 @@
             <p style="color: rgb(0, 0, 0); font-size: 12px; font-style: italic;">- Băng thông trong nước: 15,625 VNĐ / Mbps / tháng</p>
             <p style="color: rgb(0, 0, 0); font-size: 12px; font-style: italic;">- Băng thông quốc tế: 126,000 VNĐ / Mbps / tháng</p>
             <p style="color: rgb(0, 0, 0); font-size: 12px; font-style: italic;">- IP Public: 100,000 VNĐ / IP / tháng</p>
-            <p style="color: rgb(0, 0, 0); font-size: 12px; font-style: italic;">- Băng thông trong nước: 15,625 VNĐ / Mbps / tháng</p>
             <p style="color: rgb(0, 0, 0); font-size: 12px; font-style: italic;">- Rack online: 19,000,000 VNĐ / Rack / tháng</p>
             <p style="color: rgb(0, 0, 0); font-size: 12px; font-style: italic;">- License Broadcom: 620,000 VNĐ / Core / tháng</p>
             <p style="color: rgb(0, 0, 0); font-size: 12px; font-style: italic;">- License Veeam: 286,000 VNĐ / VM / tháng</p>
@@ -221,12 +220,12 @@
                     <div class="capex">
                         <h3>CHI PHÍ CAPEX</h3>
                         <ul>
-                            <li style="color: #ff5733; padding: 2px; border-radius: 1px;"><strong>Số lượng Server Compute sử dụng:</strong> ${maxServerUsagePercent}% của 0${maxServerUsage} server compute</li>
+                            <li style="color: #ff5733; padding: 2px; border-radius: 1px;"><strong>Tỉ lệ sử dụng Server Compute:</strong> ${maxServerUsagePercent}% của 0${maxServerUsage} server compute</li>
                             <li style="color: #ff5733; padding: 2px; border-radius: 1px;"><strong>Chi phí CAPEX Server Compute:</strong> ${(capexcompute / 100).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</li>
-                            <li style="color: #28a745; padding: 2px; border-radius: 1px;"><strong>Số lượng Server Managemet sử dụng:</strong> ${capexmgmt}% của 08 server management</li>
-                            <li style="color: #28a745; padding: 2px; border-radius: 1px;"><strong>Chi phí CAPEX Server Management:</strong> ${(capexmgmtprice / 100).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</li>
-                            <li style="color: #007bff; padding: 2px; border-radius: 1px;"><strong>Số lượng SAN HDD sử dụng:</strong> ${HDD_SAN_percent}% của 01 SAN HDD</li>
-                            <li style="color: #007bff; padding: 2px; border-radius: 1px;"><strong>Chi phí CAPEX SAN HDD:</strong> ${(HDD_SAN_price / 100).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</li>
+                            <li style="color: #28a745; padding: 2px; border-radius: 1px;"><strong>Tỉ lệ sử dụng hệ thống quản lý:</strong> ${capexmgmt}% của hệ thống quản lý</li>
+                            <li style="color: #28a745; padding: 2px; border-radius: 1px;"><strong>Chi phí CAPEX hệ thống quản lý:</strong> ${(capexmgmtprice / 100).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</li>
+                            <li style="color: #007bff; padding: 2px; border-radius: 1px;"><strong>Tỉ lệ sử dụng hệ thống SAN HDD :</strong> ${HDD_SAN_percent}% của hệ thống SAN HDD</li>
+                            <li style="color: #007bff; padding: 2px; border-radius: 1px;"><strong>Chi phí CAPEX hệ thống SAN HDD:</strong> ${(HDD_SAN_price / 100).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</li>
                             <li><strong>Giả định số tháng khấu hao phần cứng:</strong> 36 tháng</li>
                             <li style="color: #dc3545; background-color: #f8d7da ; font-weight: bold; padding: 2px; border-radius: 1px;"><strong>TỔNG CHI PHÍ CAPEX QUY ĐỔI HÀNG THÁNG:</strong> ${(((capexcompute / 100) + (capexmgmtprice / 100) + (HDD_SAN_price / 100)) / 36).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</li>
                         </ul>
