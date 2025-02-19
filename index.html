@@ -1,261 +1,318 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TPCloud Cost Estimator</title>
-    <link rel="stylesheet" href="style.css">
+    <title>TPC|OUD Cost Estimator</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="tp.png">
 </head>
 <body>
-    <div class="headertpcoms"> 
-        <img src="logo.png" alt="TPCOMS" style="width: 250px">
-        <h4 style="color: rgb(0, 79, 163);">TPCOMS CLOUD INFRASTRUCTURE COST ESTIMATOR</h4>
-    </div>
     <div class="main-container">
-        <div class="container">
-            <h2>THÔNG TIN ĐẦU VÀO</h2>
-            <form id="costForm">
-                <div class="label-group">
-                    <label for="numVCPU">Số lượng vCPU (Core/GHz):</label>
-                    <input type="number" id="numVCPU" min="1" max="500" step="1" value="0" required oninput="numVCPURange.value = this.value">
-                    <input type="range" id="numVCPURange" min="1" max="500" step="1" value="0" oninput="numVCPU.value = this.value">
-                </div>
-                
-                <div class="label-group">
-                    <label for="numRAM">Số lượng RAM (GB):</label>
-                    <input type="number" id="numRAM" min="1" max="2000" step="1" value="0" required oninput="numRAMRange.value = this.value">
-                    <input type="range" id="numRAMRange" min="1" max="2000" step="1" value="0" oninput="numRAM.value = this.value">
-                </div>
-                
-                <div class="label-group">
-                    <label for="numSSD">Số lượng SSD vSAN (GB):</label>
-                    <input type="number" id="numSSD" value="0" required oninput="numSSDRange.value = this.value">
-                    <input type="range" id="numSSDRange" min="10" max="5000" step="10" value="0" oninput="numSSD.value = this.value">
-                </div>
-                
-                <div class="label-group">
-                    <label for="numHDD">Số lượng HDD SAN (GB):</label>
-                    <input type="number" id="numHDD" value="0" required oninput="numHDDRange.value = this.value">
-                    <input type="range" id="numHDDRange" min="10" max="10000" step="10" value="0" oninput="numHDD.value = this.value">
-                </div>
-                
-                <div class="label-group">
-                    <label for="numIPPublic">Số lượng IP Public:</label>
-                    <input type="number" id="numIPPublic" min="1" max="50" step="1" value="1" required oninput="numIPPublicRange.value = this.value">
-                    <input type="range" id="numIPPublicRange" min="1" max="50" step="1" value="1" oninput="numIPPublic.value = this.value">
-                </div>
-                
-                <div class="label-group">
-                    <label for="bandwidthDomestic">Băng thông trong nước (Mbps):</label>
-                    <input type="number" id="bandwidthDomestic" value="100" min="1" max="10000" step="1" required oninput="bandwidthDomesticRange.value = this.value">
-                    <input type="range" id="bandwidthDomesticRange" min="1" max="10000" step="1" value="100" oninput="bandwidthDomestic.value = this.value">
-                </div>
-                
-                <div class="label-group">
-                    <label for="bandwidthInternational">Băng thông quốc tế (Mbps):</label>
-                    <input type="number" id="bandwidthInternational" value="4" min="1" max="1000" step="1" required oninput="bandwidthInternationalRange.value = this.value">
-                    <input type="range" id="bandwidthInternationalRange" min="1" max="1000" step="1" value="4" oninput="bandwidthInternational.value = this.value">
-                </div>
-                <p>Dịch vụ cộng thêm:</p>
-                <div class="extra-services">
-                    <input type="checkbox" id="enableExtra" onchange="toggleExtraForm()">
-                    <label for="enableExtra">Backup</label>
-                </div>
-                <div class="extra-container" id="extraContainer" style="display: none;">
-                    <div class="label-group">
-                        <label for="numberVM">Số lượng VM cần backup:</label>
-                        <input type="number" id="numberVM" min="0" max="100" step="1" value="0" required oninput="numberVMrange.value = this.value">
-                        <input type="range" id="numberVMrange" min="0" max="100" step="1" value="0" required oninput="numberVM.value = this.value">
-                    </div>
-                    <div class="label-group">
-                        <label for="backupcapacity">Dung lượng backup (GB):</label>
-                        <input type="number" id="backupcapacity" min="0" max="2000" step="1" value="0" required oninput="backupcapacityrange.value = this.value">
-                        <input type="range" id="backupcapacityrange" min="0" max="500" step="1" value="0" required oninput="backupcapacity.value = this.value">
-                    </div>
-                </div>
-                <button type="submit">Tính dự toán</button>
-            </form>
-            <p style="color: rgb(0, 0, 0); font-size: 14px; font-style: bold; padding-top: 10px;">Đơn giá sử dụng trong dự toán:</p>
-            <p style="color: rgb(0, 0, 0); font-size: 12px; font-style: italic;">- Server Compute: 579,607,000 VNĐ / Server</p>
-            <p style="color: rgb(0, 0, 0); font-size: 12px; font-style: italic;">- Hệ thống quản lý: 6,626,427,520 VNĐ</p>
-            <p style="color: rgb(0, 0, 0); font-size: 12px; font-style: italic;">- Hệ thống SAN HDD: 1,200,000,000 VNĐ</p>
-            <p style="color: rgb(0, 0, 0); font-size: 12px; font-style: italic;">- Băng thông trong nước: 15,625 VNĐ / Mbps / tháng</p>
-            <p style="color: rgb(0, 0, 0); font-size: 12px; font-style: italic;">- Băng thông quốc tế: 126,000 VNĐ / Mbps / tháng</p>
-            <p style="color: rgb(0, 0, 0); font-size: 12px; font-style: italic;">- IP Public: 100,000 VNĐ / IP / tháng</p>
-            <p style="color: rgb(0, 0, 0); font-size: 12px; font-style: italic;">- Rack online: 19,000,000 VNĐ / Rack / tháng</p>
-            <p style="color: rgb(0, 0, 0); font-size: 12px; font-style: italic;">- License Broadcom: 620,000 VNĐ / Core / tháng</p>
-            <p style="color: rgb(0, 0, 0); font-size: 12px; font-style: italic;">- License Veeam: 286,000 VNĐ / VM / tháng</p>
-        </div>
-        <div class="result-container">
-            <h2>THÔNG TIN DỰ TOÁN KỸ THUẬT</h2>
-            <div id="result">
+        <div class="header-container">
+            <div class="header-image-container">
+                <img src="logo.png" alt="tpcoms-logo" style="width: 150px;">
+            </div>
+            <div class="header-text-container">
+                <p class="header-text-p">DỰ TOÁN KỸ THUẬT</p>
             </div>
         </div>
+        <div class="content-container">
+            <div class="input-container">
+                <p style="text-align: center; font-weight: bold; color: rgb(242, 122, 033);">THÔNG TIN ĐẦU VÀO</p>
+                <br>
+                <form id="input-form">
+                    <div class="input-form-container">
+                        <label class="input-form-label" for="numCPU">Số lượng vCPU (Core)</label>
+                        <input class="input-form-number" type="number" id="numCPU" name="numCPU" min="1" max="500" step="1" value="1" required oninput="numCPUrange.value = this.value">
+                        <input class="input-form-range" type="range" id="numCPUrange" name="numCPUrange" min="1" max="500" step="1" value="1" required oninput="numCPU.value = this.value">
+                    </div>
+                    <div class="input-form-container">
+                        <label class="input-form-label" for="numRAM">Dung lượng RAM (GB)</label>
+                        <input class="input-form-number" type="number" id="numRAM" name="numRAM" min="1" max="5000" step="1" value="1" required oninput="numRAMrange.value = this.value">
+                        <input class="input-form-range" type="range" id="numRAMrange" name="numRAMrange" min="1" max="5000" step="1" value="1" required oninput="numRAM.value = this.value">
+                    </div>
+                    <div class="input-form-container">
+                        <label class="input-form-label" for="numSSD">Dung lượng SSD (GB)</label>
+                        <input class="input-form-number" type="number" id="numSSD" name="numSSD" min="1" max="50000" step="1" value="1" required oninput="numSSDrange.value = this.value">
+                        <input class="input-form-range" type="range" id="numSSDrange" name="numSSDrange" min="1" max="50000" step="1" value="1" required oninput="numSSD.value = this.value">
+                    </div>
+                    <div class="input-form-container">
+                        <label class="input-form-label" for="numHDD">Dung lượng HDD (GB)</label>
+                        <input class="input-form-number" type="number" id="numHDD" name="numHDD" min="1" max="50000" step="1" value="1" required oninput="numHDDrange.value = this.value">
+                        <input class="input-form-range" type="range" id="numHDDrange" name="numHDDrange" min="1" max="50000" step="1" value="1" required oninput="numHDD.value = this.value">
+                    </div>
+                    <div class="input-form-container">
+                        <label class="input-form-label" for="numIP">Số lượng IP Public</label>
+                        <input class="input-form-number" type="number" id="numIP" name="numIP" min="1" max="50" step="1" value="1" required oninput="numIPrange.value = this.value">
+                        <input class="input-form-range" type="range" id="numIPrange" name="numIPrange" min="1" max="50" step="1" value="1" required oninput="numIP.value = this.value">
+                    </div>
+                    <div class="input-form-container">
+                        <label class="input-form-label" for="numDBW">Băng thông trong nước (Mbps)</label>
+                        <input class="input-form-number" type="number" id="numDBW" name="numDBW" min="1" max="10000" step="1" value="100" required oninput="numDBWrange.value = this.value">
+                        <input class="input-form-range" type="range" id="numDBWrange" name="numDBWrange" min="1" max="10000" step="1" value="100" required oninput="numDBW.value = this.value">
+                    </div>
+                    <div class="input-form-container">
+                        <label class="input-form-label" for="numIBW">Băng thông quốc tế (Mbps)</label>
+                        <input class="input-form-number" type="number" id="numIBW" name="numIBW" min="1" max="10000" step="1" value="4" required oninput="numIBWrange.value = this.value">
+                        <input class="input-form-range" type="range" id="numIBWrange" name="numIBWrange" min="1" max="10000" step="1" value="4" required oninput="numIBW.value = this.value">
+                    </div>
+                    <hr style="margin: 1rem 4rem;">
+                    <div class="input-form-container">
+                        <p class="input-form-label">Dịch vụ cộng thêm:</p>
+                    </div>
+                    <div style="margin-bottom: 1rem;" class="input-form-container">
+                        <p class="input-form-label">Backup <input type="checkbox" id="backup-check" onclick="backupfunction()"></p>
+                        <p class="input-form-label">S3 Storage <input type="checkbox" id="s3-check" onclick="s3function()"></p>
+                        <p class="input-form-label">Cloud GPU <input type="checkbox" id="gpu-check" onclick="gpufunction()"></p>
+                    </div>
+                    <div style="display: none;" class="input-form-container input-form-extra-backup">
+                        <label class="input-form-label" for="numVM">Số lượng VM cần backup</label>
+                        <input class="input-form-number" type="number" id="numVM" name="numVM" min="0" max="100" step="1" value="0" required oninput="numVMrange.value = this.value">
+                        <input class="input-form-range" type="range" id="numVMrange" name="numVMrange" min="0" max="100" step="1" value="0" required oninput="numVM.value = this.value">
+                    </div>
+                    <div style="display: none;" class="input-form-container input-form-extra-backup">
+                        <label class="input-form-label" for="numHDDbackup">Dung lượng backup (GB)</label>
+                        <input class="input-form-number" type="number" id="numHDDbackup" name="numHDDbackup" min="0" max="10000" step="1" value="0" required oninput="numHDDbackuprange.value = this.value">
+                        <input class="input-form-range" type="range" id="numHDDbackuprange" name="numHDDbackuprange" min="0" max="10000" step="1" value="0" required oninput="numHDDbackup.value = this.value">
+                    </div>
+                    <div style="display: none;" class="input-form-container input-form-extra-s3">
+                        <label class="input-form-label" for="numS3">Dung lượng S3 storage (GB)</label>
+                        <input class="input-form-number" type="number" id="numS3" name="numS3" min="0" max="10000" step="1" value="0" required oninput="numS3range.value = this.value">
+                        <input class="input-form-range" type="range" id="numS3range" name="numS3range" min="0" max="10000" step="1" value="0" required oninput="numS3.value = this.value">
+                    </div>
+                    <div style="display: none;" class="input-form-container input-form-extra-gpu">
+                        <label class="input-form-label" for="numGPU">Dung lượng GPU (GB)</label>
+                        <input class="input-form-number" type="number" id="numGPU" name="numGPU" min="0" max="100" step="1" value="0" required oninput="numGPUrange.value = this.value">
+                        <input class="input-form-range" type="range" id="numGPUrange" name="numGPUrange" min="0" max="100" step="1" value="0" required oninput="numGPU.value = this.value">
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; margin: 1rem;">
+                        <button class="input-button" style="margin: 1rem;" type="submit">LẬP DỰ TOÁN</button>
+                    </div>
+                </form>
+            </div>
+            <div class="result-container" style="display: none;">   
+            </div>
+        </div>
+        <div class="footer-container">
+            <p style="font-weight: bold;">&copy; 2025 Phòng Kỹ Thuật Cloud</p>
+            <p style="font-weight: bold;">CÔNG TY CỔ PHẦN CÔNG NGHỆ TIÊN PHÁT</p>
+        </div>
     </div>
+
     <script>
-        function toggleExtraForm() {
-            let extraContainer = document.getElementById('extraContainer');
-            extraContainer.style.display = document.getElementById('enableExtra').checked ? 'block' : 'none';
+        function backupfunction() {
+        // Get the checkbox
+        var checkBox = document.getElementById("backup-check");
+        // Get the output text
+        var backup01s = document.querySelectorAll(".input-form-extra-backup");
+
+        backup01s.forEach(function(backup01) {
+            backup01.style.display = checkBox.checked ? "" : "none";
+            });
         }
+
+        function s3function() {
+        // Get the checkbox
+        var checkBox = document.getElementById("s3-check");
+        // Get the output text
+        var s3s = document.querySelectorAll(".input-form-extra-s3");
+
+        s3s.forEach(function(s3) {
+            s3.style.display = checkBox.checked ? "" : "none";
+            });
+        }
+
+        function gpufunction() {
+        // Get the checkbox
+        var checkBox = document.getElementById("gpu-check");
+        // Get the output text
+        var gpus = document.querySelectorAll(".input-form-extra-gpu");
+
+        gpus.forEach(function(gpu) {
+            gpu.style.display = checkBox.checked ? "" : "none";
+            });
+        }
+
+        document.getElementById("input-form").addEventListener("submit", function(event) {
+        event.preventDefault(); // Ngăn chặn việc tải lại trang
+
+        // Khóa tất cả các trường input, select, textarea, và nút trong form
+        const elements = this.querySelectorAll("input, button, select, textarea");
+        elements.forEach(function(el) {
+            el.disabled = true;
+        });
+
+        // Lấy các giá trị cơ bản từ form
+        const numCPU = parseInt(document.getElementById("numCPU").value, 10);
+        const numRAM = parseInt(document.getElementById("numRAM").value, 10);
+        const numSSD = parseInt(document.getElementById("numSSD").value, 10);
+        const numHDD = parseInt(document.getElementById("numHDD").value, 10);
+        const numIP = parseInt(document.getElementById("numIP").value, 10);
+        const numDBW = parseInt(document.getElementById("numDBW").value, 10);
+        const numIBW = parseInt(document.getElementById("numIBW").value, 10);
+        const numVM = parseInt(document.getElementById("numVM").value, 10);
+        const numHDDbackup = parseInt(document.getElementById("numHDDbackup").value, 10);
+        const numS3 = parseInt(document.getElementById("numS3").value, 10);
+        const numGPU = parseInt(document.getElementById("numGPU").value, 10);
+
+        // Tổng tài nguyên
+        let numCPUtotal = numCPU;
+        let numRAMtotal = numRAM;
+        let numSSDtotal = (numSSD + numRAM);
+        let numHDDtotal = (numHDD + numHDDbackup + numS3);
+        let numIPtotal = numIP;
+        let numDBWtotal = numDBW;
+        let numIBWtotal = numIBW;
+
+        // Tài nguyên chiếm dụng
+        const computeReserveRatio = 0.2;
+        const storageReserveRatio = 1.33;
+        const dbandwidthReserveRatio = 0.2;
+        const ibandwidthReserveRatio = 0.37;
+        let numCPUusage = (numCPUtotal * computeReserveRatio).toFixed(1);
+        let numRAMusage = (numRAMtotal * computeReserveRatio).toFixed(1);
+        let numSSDusage = (numSSDtotal * storageReserveRatio).toFixed(1);
+        let numHDDusage = (numHDDtotal * storageReserveRatio).toFixed(1);
+        let numIPusage = numIPtotal;
+        let numDBWusage = (numDBWtotal * dbandwidthReserveRatio).toFixed(1);
+        let numIBWusage = (numIBWtotal * ibandwidthReserveRatio).toFixed(1);
+
+        // Tỉ lệ chiếm dụng
+        const physicalCore = 80;
+        const physicalRAM = 512;
+        const physicalSSD = 10480;
+        const physicalHDD = 540672;
+        const mgmtsystemsharefor1computeserver = 0.0875;
+        const rack = 0.0476;
+        let CPUratio = (numCPUusage / physicalCore);
+        let RAMratio = (numRAMusage / physicalRAM);
+        let SSDratio = (numSSDusage / physicalSSD);
+        let maxRatio = Math.max(CPUratio, RAMratio, SSDratio);
+        let CPUratioRound = Math.ceil(CPUratio);
+        let RAMratioRound = Math.ceil(RAMratio);
+        let SSDratioRound = Math.ceil(SSDratio);
+        let numCPUratio = (numCPUusage / (physicalCore * CPUratioRound) * 100).toFixed(2);
+        let numRAMratio = (numRAMusage / (physicalRAM * RAMratioRound) * 100).toFixed(2);
+        let numSSDratio = (numSSDusage / (physicalSSD * SSDratioRound) * 100).toFixed(2);
+        let numHDDratio = (numHDDusage / physicalHDD * 100).toFixed(2);
+        let numServerCompute = Math.max(CPUratioRound, RAMratioRound, SSDratioRound);
+        let ratioServerCompute;
+        if (maxRatio === CPUratio) {
+            ratioServerCompute = numCPUratio;
+        } else if (maxRatio === RAMratio) {
+            ratioServerCompute = numRAMratio;
+        } else if (maxRatio === SSDratio) {
+            ratioServerCompute = numSSDratio;
+        }
+        let mgmtShareRatio = (numServerCompute * ratioServerCompute * mgmtsystemsharefor1computeserver).toFixed(2);
+        let HDDratio = (numHDDusage / physicalHDD * 100).toFixed(2);
+        let physicalCoreRatio = (maxRatio * 32).toFixed(2);
+        let rackRatio = (numServerCompute * ratioServerCompute * rack).toFixed(2);
+
+        // CAPEX
+        const serverComputePrice = 579607000;
+        const mgmtSystemPrice = 6626427520;
+        const sanSystemPrice = 1200000000;
+        const despreciationTime = 36;
+        let serverComputeCost = ((numServerCompute * ratioServerCompute * serverComputePrice) / 100);
+        let mgmtSystemCost = ((mgmtShareRatio * mgmtSystemPrice) / 100);
+        let sanSystemCost = ((HDDratio * sanSystemPrice) / 100);
+        let capex = (serverComputeCost + mgmtSystemCost + sanSystemCost) / despreciationTime;
+
+        // OPEX
+        const dbandwidthPrice = 15625;
+        const ibandwidthPrice = 126000;
+        const ipPrice = 100000;
+        const rackLocationPrice = 19000000;
+        const licenseBroadcomPrice = 620000;
+        const licenseVeeamPrice = 26000;
+        const veeamPoint = 11;
+        let dbandwidthCost = (numDBWusage * dbandwidthPrice);
+        let ibandwidthCost = (numIBWusage * ibandwidthPrice);
+        let ipCost = (numIPusage * ipPrice);
+        let rackLocationCost = ((rackRatio * rackLocationPrice) / 100);
+        let licenseBroadcomCost = (physicalCoreRatio * licenseBroadcomPrice);
+        let licenseVeeamCost = (numVM * veeamPoint * licenseVeeamPrice);
+        let opex = (dbandwidthCost + ibandwidthCost + ipCost + rackLocationCost + licenseBroadcomCost + licenseVeeamCost);
+        
+        const resultContainer = document.querySelector('.result-container');
+        resultContainer.style.display = "";
+        resultContainer.innerHTML = `
+        <p style="text-align: center; font-weight: bold; color: rgb(242, 122, 033);">KẾT QUẢ DỰ TOÁN</p>
+                <br>
+                <div class="result-detail-container">
+                    <div class="total-resource">
+                        <p style="text-align: center; font-weight: bold; color: rgb(0, 79, 163);">TỔNG TÀI NGUYÊN</p>
+                        <br>
+                        <p>Số lượng vCPU: ${numCPUtotal} core</p>
+                        <p>Dung lượng RAM: ${numRAMtotal} GB</p>
+                        <p>Dung lượng SSD: ${numSSDtotal} GB</p>
+                        <p>Dung lượng HDD: ${numHDDtotal} GB</p>
+                        <p>Số lượng IP public: ${numIPtotal} IP</p>
+                        <p>Băng thông trong nước: ${numDBWtotal} Mbps</p>
+                        <p>Băng thông quốc tế: ${numIBWtotal} Mbps</p>
+                    </div>
+                    <div class="usage-resource">
+                        <p style="text-align: center; font-weight: bolder; color: rgb(0, 79, 163);">TÀI NGUYÊN CHIẾM DỤNG</p>
+                        <br>
+                        <p>Số lượng vCPU: ${numCPUusage} core</p>
+                        <p>Dung lượng RAM: ${numRAMusage} GB</p>
+                        <p>Dung lượng SSD: ${numSSDusage} GB</p>
+                        <p>Dung lượng HDD: ${numHDDusage} GB</p>
+                        <p>Số lượng IP public: ${numIPusage} IP</p>
+                        <p>Băng thông trong nước: ${numDBWusage} Mbps</p>
+                        <p>Băng thông quốc tế: ${numIBWusage} Mbps</p>
+                    </div>
+                    <div class="usage-ratio">
+                        <p style="text-align: center; font-weight: bold; color: rgb(0, 79, 163);">TỈ LỆ CHIẾM DỤNG</p>
+                        <br>
+                        <p>Tỉ lệ chiếm dụng server theo CPU: ${numCPUratio}% của ${CPUratioRound} server</p>
+                        <p>Tỉ lệ chiếm dụng server theo RAM: ${numRAMratio}% của ${RAMratioRound} server</p>
+                        <p>Tỉ lệ chiếm dụng server theo vSAN: ${numSSDratio}% của ${SSDratioRound} server</p>
+                        <p>Tỉ lệ sử dụng hệ thống quản lý: ${mgmtShareRatio}% của hệ thống</p>
+                        <p>Tỉ lệ sử dụng hệ thống SAN HDD: ${HDDratio}% của hệ thống</p>
+                        <p>Tỉ lệ sử dụng rack: ${rackRatio}% của rack chạy chính</p>
+                        <p>Số lượng core vật lý sử dụng: ${physicalCoreRatio} core</p>
+                    </div>
+                </div>
+                <div class="cost-detail-container">
+                    <div class="capex-container">
+                        <p style="text-align: center; font-weight: bold; color: rgb(0, 79, 163);">CHI PHÍ DỰ TOÁN</p>
+                        <br>
+                        <p style="font-weight: bold; color: rgb(242, 122, 033);">CAPEX: ${(capex).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</p>
+                        <hr>
+                        <p>Chi phí server compute: ${(serverComputeCost).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</p>
+                        <p>Chi phí hệ thống quản lý: ${(mgmtSystemCost).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</p>
+                        <p>Chi phí hệ thống SAN HDD: ${(sanSystemCost).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</p>
+                        <p>Thời gian khấu hao: ${despreciationTime} tháng</p>
+                        <br>
+                        <br>
+                        <p style="font-weight: bold; color: rgb(242, 122, 033);">OPEX: ${(opex).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</p>
+                        <hr>
+                        <p>Chi phí băng thông trong nước: ${(dbandwidthCost).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</p>
+                        <p>Chi phí băng thông quốc tế: ${(ibandwidthCost).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</p>
+                        <p>Chi phí IP public: ${(ipCost).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</p>
+                        <p>Chi phí rack location: ${(rackLocationCost).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</p>
+                        <p>Chi phí license Broadcom: ${(licenseBroadcomCost).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</p>
+                        <p>Chi phí license Veeam: ${(licenseVeeamCost).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</p>
+                    </div>
+                    <div class="opex-container">
+                        <p style="text-align: center; font-weight: bolder; color: rgb(0, 79, 163);">PHƯƠNG ÁN KINH DOANH</p>
+                        <br>
+                        <p style="text-align: center;">COMMING SOON!!!</p>
+                    </div>
+                </div>
+        `;
+
+
+        // document.querySelector('.result-container').style.display ="";
+
+        // Bạn có thể thêm các xử lý khác ở đây (ví dụ: gửi dữ liệu qua AJAX)
+        console.log("Form đã được submit và khóa lại.");
+        });
     </script>
-    <script>
-        document.querySelectorAll('input[type="number"]').forEach(input => {
-            input.addEventListener('input', function() {
-                const rangeInput = document.getElementById(this.id + 'Range');
-                rangeInput.value = this.value;
-            });
-        });
-
-        document.querySelectorAll('input[type="range"]').forEach(range => {
-            range.addEventListener('input', function() {
-                const numberInput = document.getElementById(this.id.replace('Range', ''));
-                numberInput.value = this.value;
-            });
-        });
-
-        document.getElementById('costForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Ngăn chặn form submit mặc định
-            // Lưu từng giá trị vào biến riêng
-            let numVCPU = parseInt(document.getElementById('numVCPU').value, 10);
-            let numRAM = parseInt(document.getElementById('numRAM').value, 10);
-            let numSSD = parseInt(document.getElementById('numSSD').value, 10);
-            let numHDD = parseInt(document.getElementById('numHDD').value, 10);
-            let numIPPublic = parseInt(document.getElementById('numIPPublic').value, 10);
-            let bandwidthDomestic = parseInt(document.getElementById('bandwidthDomestic').value, 10);
-            let bandwidthInternational = parseInt(document.getElementById('bandwidthInternational').value, 10);
-
-            let numberVM = parseInt(document.getElementById('numberVM').value, 10);
-            let backupcapacity = parseInt(document.getElementById('backupcapacity').value, 10);
-
-            // Khóa tất cả các ô nhập liệu
-            let inputs = document.querySelectorAll('input[type="number"], input[type="range"]');
-            inputs.forEach(input => {
-                input.setAttribute('disabled', true);
-            });
-
-            // Hiển thị giá trị trong div #result
-            let vCPU_Usage = parseFloat((numVCPU * 0.2).toFixed(1));
-            let RAM_Usage = parseFloat((numRAM * 0.2).toFixed(1));
-            let SSD_Usage = parseFloat(((numSSD + numRAM) * 1.33).toFixed(1));
-            let HDD_Usage = parseFloat(((numHDD + backupcapacity) * 1.33).toFixed(1));
-            let BTTN_Usage = parseFloat((bandwidthDomestic / 5).toFixed(1));
-            let BTQT_Usage = parseFloat((bandwidthInternational / 2.7).toFixed(1));
-
-            // Tính toán chiếm dụng hệ thống
-            let vCPU_Calc = parseFloat((vCPU_Usage / 80).toFixed(2));
-            let RAM_Calc = parseFloat((RAM_Usage / 512).toFixed(2));
-            let SSD_Calc = parseFloat((numSSD / 10480).toFixed(2));
-
-            let vCPU_Calc_Round = Math.ceil(vCPU_Usage / 80);
-            let RAM_Calc_Round = Math.ceil(RAM_Usage / 512);
-            let SSD_Calc_Round = Math.ceil(numSSD / 10480);
-
-            let vCPU_Calc_Percent = parseFloat((vCPU_Usage / (80 * vCPU_Calc_Round)).toFixed(2));
-            let RAM_Calc_Percent = parseFloat((RAM_Usage / (512 * RAM_Calc_Round)).toFixed(2));
-            let SSD_Calc_Percent = parseFloat((SSD_Usage / (10480 * SSD_Calc_Round)).toFixed(2));
-
-            let maxServerUsage = Math.max(vCPU_Calc_Round, RAM_Calc_Round, SSD_Calc_Round);
-            let maxServerUsagePercent = parseFloat((Math.max(vCPU_Calc_Percent, RAM_Calc_Percent, SSD_Calc_Percent) * 100)).toFixed(2);
-            let corelicmax = Math.max(vCPU_Calc, RAM_Calc, SSD_Calc);
-            let corelic = (corelicmax * 32)
-
-            let dongiaserver = 579607000;
-            let capexcompute = (maxServerUsage * maxServerUsagePercent * dongiaserver)
-            let capexmgmt = parseFloat((maxServerUsage * maxServerUsagePercent * 8.75 / 100 ).toFixed(2));
-            let capexmgmtprice = (6626427520 * capexmgmt);
-
-            let HDD_SAN_percent = parseFloat(((HDD_Usage / 540672) * 100).toFixed(2));
-            let HDD_SAN_price = (1200000000 * HDD_SAN_percent);
-
-            let bttnprice = (BTTN_Usage * 15625);
-            let btqtnprice = (BTQT_Usage * 126000);
-            let ipprice = (numIPPublic * 100000);
-            let rack_calc = (maxServerUsage * maxServerUsagePercent * (4.76 / 100));
-            let rack_price = ((rack_calc * 19000000) / 100);
-            let licprice = (corelic * 620000);
-            let opexprice = (bttnprice + btqtnprice + ipprice + rack_price + licprice);
-            let veeamprice = (numberVM * 11 * 26000);
-
-
-            document.getElementById('result').innerHTML = `
-                <div class="total-resources">
-                    <div class="tong-tai-nguyen">
-                        <h3>TỔNG TÀI NGUYÊN</h3>
-                        <ul>
-                            <li><strong>Số lượng vCPU:</strong> ${numVCPU} GHz</li>
-                            <li><strong>Số lượng RAM:</strong> ${numRAM} GB</li>
-                            <li><strong>Số lượng Storage SSD:</strong> ${numSSD + numRAM} GB</li>
-                            <li><strong>Số lượng Storage HDD:</strong> ${numHDD + backupcapacity} GB</li>
-                            <li><strong>Số lượng IP Public:</strong> ${numIPPublic}</li>
-                            <li><strong>Băng thông trong nước:</strong> ${bandwidthDomestic} Mbps</li>
-                            <li><strong>Băng thông quốc tế:</strong> ${bandwidthInternational} Mbps</li>
-                        </ul>
-                    </div>
-                    <div class="tai-nguyen-chiem-dung">
-                        <h3>TÀI NGUYÊN CHIẾM DỤNG</h3>
-                        <ul>
-                            <li><strong>Số lượng vCPU:</strong> ${vCPU_Usage} GHz</li>
-                            <li><strong>Số lượng RAM:</strong> ${RAM_Usage} GB</li>
-                            <li><strong>Số lượng Storage SSD:</strong> ${SSD_Usage} GB</li>
-                            <li><strong>Số lượng Storage HDD:</strong> ${HDD_Usage} GB</li>
-                            <li><strong>Số lượng IP Public:</strong> ${numIPPublic}</li>
-                            <li><strong>Băng thông trong nước:</strong> ${BTTN_Usage} Mbps</li>
-                            <li><strong>Băng thông quốc tế:</strong> ${BTQT_Usage} Mbps</li>
-                        </ul>
-                    </div>
-                    <div class="tai-nguyen-tinh-toan">
-                        <h3>TỈ LỆ CHIẾM DỤNG</h3>
-                        <ul>
-                            <li><strong>Số server chiếm dụng theo CPU:</strong> ${vCPU_Calc} <strong>~~</strong> 0${vCPU_Calc_Round} server</li>
-                            <li><strong>Số server chiếm dụng theo RAM:</strong> ${RAM_Calc} <strong>~~</strong> 0${RAM_Calc_Round} server</li>
-                            <li><strong>Số server chiếm dụng theo vSAN:</strong> ${SSD_Calc} <strong>~~</strong> 0${SSD_Calc_Round} server</li>
-                            <li><strong>Tỉ lệ server chiếm dụng theo CPU:</strong> ${(vCPU_Calc_Percent * 100).toFixed(0)}% trên tổng 0${vCPU_Calc_Round} server </li>
-                            <li><strong>Tỉ lệ server chiếm dụng theo RAM:</strong> ${(RAM_Calc_Percent * 100).toFixed(0)}% trên tổng 0${RAM_Calc_Round} server</li>
-                            <li><strong>Tỉ lệ server chiếm dụng theo vSAN:</strong> ${(SSD_Calc_Percent * 100).toFixed(0)}% trên tổng 0${SSD_Calc_Round} server</li>
-                            <li><strong>Số lượng Core vật lý tính license:</strong> ${corelic} core</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="cost">
-                    <div class="capex">
-                        <h3>CHI PHÍ CAPEX</h3>
-                        <ul>
-                            <li style="color: #ff5733; padding: 2px; border-radius: 1px;"><strong>Tỉ lệ sử dụng Server Compute:</strong> ${maxServerUsagePercent}% của 0${maxServerUsage} server compute</li>
-                            <li style="color: #ff5733; padding: 2px; border-radius: 1px;"><strong>Chi phí CAPEX Server Compute:</strong> ${(capexcompute / 100).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</li>
-                            <li style="color: #28a745; padding: 2px; border-radius: 1px;"><strong>Tỉ lệ sử dụng hệ thống quản lý:</strong> ${capexmgmt}% của hệ thống quản lý</li>
-                            <li style="color: #28a745; padding: 2px; border-radius: 1px;"><strong>Chi phí CAPEX hệ thống quản lý:</strong> ${(capexmgmtprice / 100).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</li>
-                            <li style="color: #007bff; padding: 2px; border-radius: 1px;"><strong>Tỉ lệ sử dụng hệ thống SAN HDD :</strong> ${HDD_SAN_percent}% của hệ thống SAN HDD</li>
-                            <li style="color: #007bff; padding: 2px; border-radius: 1px;"><strong>Chi phí CAPEX hệ thống SAN HDD:</strong> ${(HDD_SAN_price / 100).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</li>
-                            <li><strong>Giả định số tháng khấu hao phần cứng:</strong> 36 tháng</li>
-                            <li style="color: #dc3545; background-color: #f8d7da ; font-weight: bold; padding: 2px; border-radius: 1px;"><strong>TỔNG CHI PHÍ CAPEX QUY ĐỔI HÀNG THÁNG:</strong> ${(((capexcompute / 100) + (capexmgmtprice / 100) + (HDD_SAN_price / 100)) / 36).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</li>
-                        </ul>
-                    </div>
-                    <div class="opex">
-                        <h3>CHI PHÍ OPEX</h3>
-                        <ul>
-                            <li style="color: #ff5733; padding: 2px; border-radius: 1px;"><strong>Chi phí băng thông trong nước:</strong> ${(bttnprice).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</li>
-                            <li style="color: #ff5733; padding: 2px; border-radius: 1px;"><strong>Chi phí băng thông quốc tế:</strong> ${(btqtnprice).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</li>
-                            <li style="color: #28a745; padding: 2px; border-radius: 1px;"><strong>Chi phí IP Public:</strong> ${(ipprice).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</li>
-                            <li style="color: #28a745; padding: 2px; border-radius: 1px;"><strong>Chi phí Rack:</strong> ${(rack_price).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</li>
-                            <li style="color: #007bff; padding: 2px; border-radius: 1px;"><strong>Chi phí license Broadcom:</strong> ${(licprice).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</li>
-                            <li style="color: #007bff; padding: 2px; border-radius: 1px;"><strong>Chi phí license Veeam:</strong> ${(veeamprice).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</li>
-                            <li><strong>Số lượng VM backup:</strong> ${numberVM} VMs</li>
-                            <li style="color: #dc3545; background-color: #f8d7da ; font-weight: bold; padding: 2px; border-radius: 1px;"><strong>TỔNG CHI PHÍ OPEX:</strong> ${(opexprice).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="total">
-                    <div class="total-cost">
-                        <h3>TỔNG CHI PHÍ KỸ THUẬT</h3>
-                        <ul>
-                            <li style="color: #dc3545; font-weight: bold; padding: 2px; border-radius: 1px; text-align: center; font-size: 20px;">${((((capexcompute / 100) + (capexmgmtprice / 100) + (HDD_SAN_price / 100)) / 36) + opexprice).toLocaleString('en-US', { maximumFractionDigits: 0 })} VNĐ</li>
-                        </ul>
-                    </div>
-                </div>
-            `;
-
-            // Bạn có thể sử dụng các biến numVCPU, numRAM, numSSD... trong các tính toán khác sau này.
-        });
-    </script>
+    
 </body>
 </html>
