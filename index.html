@@ -79,8 +79,8 @@
                     </div>
                     <div style="display: none;" class="input-form-container input-form-extra-s3">
                         <label class="input-form-label" for="numS3">Dung lượng S3 storage (GB)</label>
-                        <input class="input-form-number" type="number" id="numS3" name="numS3" min="0" max="10000" step="1" value="0" required oninput="numS3range.value = this.value">
-                        <input class="input-form-range" type="range" id="numS3range" name="numS3range" min="0" max="10000" step="1" value="0" required oninput="numS3.value = this.value">
+                        <input class="input-form-number" type="number" id="numS3" name="numS3" min="0" max="100000" step="1" value="0" required oninput="numS3range.value = this.value">
+                        <input class="input-form-range" type="range" id="numS3range" name="numS3range" min="0" max="100000" step="1" value="0" required oninput="numS3.value = this.value">
                     </div>
                     <div style="display: none;" class="input-form-container input-form-extra-gpu">
                         <label class="input-form-label" for="numGPU">Dung lượng GPU (GB)</label>
@@ -305,12 +305,6 @@
                     </div>
                 </div>
         `;
-
-
-        // document.querySelector('.result-container').style.display ="";
-
-        // Bạn có thể thêm các xử lý khác ở đây (ví dụ: gửi dữ liệu qua AJAX)
-        console.log("Form đã được submit và khóa lại.");
         });
     </script>
     
